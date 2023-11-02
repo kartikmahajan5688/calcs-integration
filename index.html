@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Calculation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        justify-content: center;
+        align-items: flex-start;
+        width: auto;
+      }
+
+      .left-panel {
+        width: 30%;
+      }
+
+      .right-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 1.3rem;
+        width: 70%;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid #ddd;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .section {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      h3 {
+        margin-top: 0;
+      }
+
+      label,
+      p {
+        margin-bottom: 10px;
+      }
+
+      input {
+        width: calc(100% - 20px);
+        padding: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .table-container {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Input and Corrected Data Section -->
+      <div class="left-panel">
+        <div class="section">
+          <h3>Inputs</h3>
+
+          <label for="pitLength">Pit Length:</label>
+          <input
+            type="number"
+            id="pitLength"
+            placeholder="10.44 m "
+          /><br /><br />
+          <label for="pitWidth">Pit Width:</label>
+          <input type="number" id="pitWidth" placeholder="2.5 m" /><br /><br />
+          <label for="pitDepth">Pit Depth:</label>
+          <input type="number" id="pitDepth" placeholder="3 m" /><br /><br />
+          <button onclick="calculate()">Calculate</button>
+        </div>
+        <div class="section">
+          <h3>Correct Pit Dimension</h3>
+          <p>Pit Length: <span id="correctedPitLength">0</span> m</p>
+          <p>Pit Width: <span id="correctedPitWidth">0</span> m</p>
+          <p>Pit Depth: <span id="correctedPitDepth">0</span> m</p>
+        </div>
+      </div>
+
+      <!-- Output Tables Section -->
+      <div class="right-panel">
+        <!-- Structure Dimension Table -->
+        <div class="section">
+          <h3>Structure Dimension</h3>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Value</th>
+                  <th>Units</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Input Storage Volume</td>
+                  <td id="inputStorageVolume">0</td>
+                  <td>m³</td>
+                </tr>
+                <tr>
+                  <td>Total no. of Tanks Required</td>
+                  <td id="totalTank">0</td>
+                  <td>Pcs</td>
+                </tr>
+                <tr>
+                  <td>No. of tank in Length side</td>
+                  <td id="tankLengthSide">0</td>
+                  <td>Pcs</td>
+                </tr>
+                <tr>
+                  <td>No. of tank in Width side</td>
+                  <td id="tankWidthSide">0</td>
+                  <td>Pcs</td>
+                </tr>
+                <tr>
+                  <td>No. of Layer</td>
+                  <td id="numLayer">0</td>
+                  <td>Pcs</td>
+                </tr>
+                <tr>
+                  <td>Tank area per layer</td>
+                  <td id="tankAreaPerLayer">0</td>
+                  <td>Pcs</td>
+                </tr>
+                <tr>
+                  <td>Gross volume</td>
+                  <td id="grossVolume">0</td>
+                  <td>Pcs</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Bill of Material Table -->
+        <div class="section">
+          <h3>Bill Of Material</h3>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Material</th>
+                  <th>Quantity</th>
+                  <th>Units</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Module</td>
+                  <td id="module">0</td>
+                  <td>Pcs</td>
+                </tr>
+                <tr>
+                  <td>Large Lattice</td>
+                  <td id="largeLattice">0</td>
+                  <td>Pcs</td>
+                </tr>
+                <tr>
+                  <td>Small Lattice</td>
+                  <td id="smallLattice">0</td>
+                  <td>Pcs</td>
+                </tr>
+                <tr>
+                  <td>Protector ring</td>
+                  <td id="protectorRing">0</td>
+                  <td>Pcs</td>
+                </tr>
+                <tr>
+                  <td>Single Block Connector</td>
+                  <td id="singleBlockConnector">0</td>
+                  <td>Pcs</td>
+                </tr>
+                <tr>
+                  <td>Double Block Connector</td>
+                  <td id="doubleBlockConnector">0</td>
+                  <td>Pcs</td>
+                </tr>
+                <!-- Add more rows as needed -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function calculate() {
+        // Get input values
+        let pitLength = parseFloat(document.getElementById("pitLength").value);
+        let pitWidth = parseFloat(document.getElementById("pitWidth").value);
+        let pitDepth = parseFloat(document.getElementById("pitDepth").value);
+
+        // Single tank Dimension
+        const tank_length = 0.770;
+        const tank_width = 0.385;
+        const tank_height = 0.422;
+        const void_ratio = 95;
+        const module_single = 2;
+        const large_lattice = 2;
+        const small_lattice = 2;
+        const protector_ring = 16.0;
+
+        // const number_of_tank_in_lengthside = L;
+        // const number_of_tank_in_widthside = W;
+        // const number_of_layer = D;
+        // const single_block_connector =
+        //   ((L - 1) * W + (W - 1) * L) * 2((L - 1) * W + (W - 1) * L) * D - 1;
+        // const double_block_connector = ((L - 1) * W + (W - 1) * L) * D - 1;
+
+        let tankLengthSide = Math.round(pitLength / tank_length);
+        let tankWidthSide = Math.round(pitWidth / tank_width);
+        let numLayer = Math.round(pitDepth / tank_height);
+
+        //corrected pit sizes
+        const correctedPitLength = tankLengthSide * tank_length;
+        const correctedPitWidth = tankWidthSide * tank_width;
+        const correctedPitDepth = numLayer * tank_height;
+
+        // Formulas
+        let inputStorageVolume =
+          (correctedPitLength *
+            correctedPitWidth *
+            correctedPitDepth *
+            void_ratio) /
+          100;
+        let totalTank = tankLengthSide * tankWidthSide * numLayer;
+
+        let tankAreaPerLayer = correctedPitLength * correctedPitWidth;
+        let grossVolume =
+          correctedPitDepth * correctedPitLength * correctedPitWidth;
+
+        let module = totalTank * module_single;
+        let largeLattice = tankLengthSide * numLayer * 2;
+        let smallLattice = tankWidthSide * numLayer * 2;
+        let protectorRing = tankLengthSide * tankWidthSide * 8;
+        let singleBlockConnector =
+          (tankLengthSide - 1) * (tankWidthSide - 1) * 4;
+        let doubleBlockConnector =
+          (tankLengthSide - 1) * (tankWidthSide - 1) * (numLayer - 1) * 2;
+
+        // Display results
+        document.getElementById("correctedPitLength").innerText =
+          correctedPitLength.toFixed(2);
+        document.getElementById("correctedPitWidth").innerText =
+          correctedPitWidth.toFixed(2);
+        document.getElementById("correctedPitDepth").innerText =
+          correctedPitDepth.toFixed(2);
+
+        document.getElementById("inputStorageVolume").innerText =
+          inputStorageVolume.toFixed(2);
+        document.getElementById("totalTank").innerText = totalTank.toFixed(2);
+        document.getElementById("tankLengthSide").innerText =
+          tankLengthSide.toFixed(2);
+        document.getElementById("tankWidthSide").innerText =
+          tankWidthSide.toFixed(2);
+        document.getElementById("numLayer").innerText = numLayer.toFixed(2);
+        document.getElementById("tankAreaPerLayer").innerText =
+          tankAreaPerLayer.toFixed(2);
+        document.getElementById("grossVolume").innerText =
+          grossVolume.toFixed(2);
+
+        document.getElementById("module").innerText = module.toFixed(2);
+        document.getElementById("largeLattice").innerText =
+          largeLattice.toFixed(2);
+        document.getElementById("smallLattice").innerText =
+          smallLattice.toFixed(2);
+        document.getElementById("protectorRing").innerText =
+          protectorRing.toFixed(2);
+        document.getElementById("singleBlockConnector").innerText =
+          singleBlockConnector.toFixed(2);
+        document.getElementById("doubleBlockConnector").innerText =
+          doubleBlockConnector.toFixed(2);
+      }
+    </script>
+  </body>
+</html>
