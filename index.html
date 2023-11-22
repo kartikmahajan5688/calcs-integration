@@ -109,12 +109,20 @@
           <input
             type="number"
             id="pitLength"
-            placeholder="10.44 m "
+            placeholder="20.02 m"
           /><br /><br />
           <label for="pitWidth">Pit Width:</label>
-          <input type="number" id="pitWidth" placeholder="2.5 m" /><br /><br />
+          <input
+            type="number"
+            id="pitWidth"
+            placeholder="5.005 m"
+          /><br /><br />
           <label for="pitDepth">Pit Depth:</label>
-          <input type="number" id="pitDepth" placeholder="3 m" /><br /><br />
+          <input
+            type="number"
+            id="pitDepth"
+            placeholder="5.064 m"
+          /><br /><br />
           <button onclick="calculate()">Calculate</button>
         </div>
         <div class="section">
@@ -200,30 +208,30 @@
                 </tr>
                 <tr>
                   <td>Large Side Wall Lattice</td>
-                  <td id="largeLattice">0</td>
+                  <td id="largeSideWallLattice">0</td>
                   <td>Pcs</td>
                 </tr>
                 <tr>
                   <td>Small Side Wall Lattice</td>
-                  <td id="smallLattice">0</td>
+                  <td id="smallSideWallLattice">0</td>
                   <td>Pcs</td>
                 </tr>
                 <tr>
                   <td>Top Surface Protector</td>
-                  <td id="protectorRing">0</td>
+                  <td id="topSurfaceProtector">0</td>
                   <td>Pcs</td>
                 </tr>
                 <tr>
                   <td>Bespoke Structure Single Block Connector</td>
-                  <td id="singleBlockConnector">0</td>
+                  <td id="bespokeStructureSingleBlockConnector">0</td>
                   <td>Pcs</td>
                 </tr>
                 <tr>
                   <td>Bespoke Structure Multi Block Connector</td>
-                  <td id="doubleBlockConnector">0</td>
+                  <td id="bespokeStructureMultiBlockConnector">0</td>
                   <td>Pcs</td>
                 </tr>
-                <!-- <tr>
+                <tr>
                   <td>Geotextile</td>
                   <td id="geotextile">0</td>
                   <td>m²</td>
@@ -232,8 +240,7 @@
                   <td>Impermeable Membrane</td>
                   <td id="impermeableMembrane">0</td>
                   <td>m²</td>
-                </tr> -->
-                <!-- Add more rows as needed -->
+                </tr>
               </tbody>
             </table>
           </div>
@@ -254,16 +261,9 @@
         const tank_height = 0.422;
         const void_ratio = 95;
         const module_single = 2;
-        const large_lattice = 2;
-        const small_lattice = 2;
-        const protector_ring = 16.0;
-
-        // const number_of_tank_in_lengthside = L;
-        // const number_of_tank_in_widthside = W;
-        // const number_of_layer = D;
-        // const single_block_connector =
-        //   ((L - 1) * W + (W - 1) * L) * 2((L - 1) * W + (W - 1) * L) * D - 1;
-        // const double_block_connector = ((L - 1) * W + (W - 1) * L) * D - 1;
+        // const large_lattice = 2;
+        // const small_lattice = 2;
+        // const protector_ring = 16.0;
 
         let tankLengthSide = Math.round(pitLength / tank_length);
         let tankWidthSide = Math.round(pitWidth / tank_width);
@@ -288,13 +288,24 @@
           correctedPitDepth * correctedPitLength * correctedPitWidth;
 
         let module = totalTank * module_single;
-        let largeLattice = tankLengthSide * numLayer * 2;
-        let smallLattice = tankWidthSide * numLayer * 2;
-        let protectorRing = tankLengthSide * tankWidthSide * 8;
-        let singleBlockConnector =
+        let largeSideWallLattice = tankLengthSide * numLayer * 2;
+        let smallSideWallLattice = tankWidthSide * numLayer * 2;
+        let topSurfaceProtector = tankLengthSide * tankWidthSide * 8;
+        let bespokeStructureSingleBlockConnector =
           (tankLengthSide - 1) * (tankWidthSide - 1) * 4;
-        let doubleBlockConnector =
+        let bespokeStructureMultiBlockConnector =
           (tankLengthSide - 1) * (tankWidthSide - 1) * (numLayer - 1) * 2;
+        let geotextile =
+          (2 * (correctedPitLength * correctedPitWidth) +
+            2 * (correctedPitWidth * correctedPitDepth) +
+            2 * (correctedPitLength * correctedPitDepth)) *
+          1.2;
+
+        let impermeableMembrane =
+          (2 * (correctedPitLength * correctedPitWidth) +
+            2 * (correctedPitWidth * correctedPitDepth) +
+            2 * (correctedPitLength * correctedPitDepth)) *
+          1.2;
 
         // Display results
         document.getElementById("correctedPitLength").innerText =
@@ -318,16 +329,21 @@
           grossVolume.toFixed(3);
 
         document.getElementById("module").innerText = module.toFixed(3);
-        document.getElementById("largeLattice").innerText =
-          largeLattice.toFixed(3);
-        document.getElementById("smallLattice").innerText =
-          smallLattice.toFixed(3);
-        document.getElementById("protectorRing").innerText =
-          protectorRing.toFixed(3);
-        document.getElementById("singleBlockConnector").innerText =
-          singleBlockConnector.toFixed(3);
-        document.getElementById("doubleBlockConnector").innerText =
-          doubleBlockConnector.toFixed(3);
+        document.getElementById("largeSideWallLattice").innerText =
+          largeSideWallLattice.toFixed(3);
+        document.getElementById("smallSideWallLattice").innerText =
+          smallSideWallLattice.toFixed(3);
+        document.getElementById("topSurfaceProtector").innerText =
+          topSurfaceProtector.toFixed(3);
+        document.getElementById(
+          "bespokeStructureSingleBlockConnector"
+        ).innerText = bespokeStructureSingleBlockConnector.toFixed(3);
+        document.getElementById(
+          "bespokeStructureMultiBlockConnector"
+        ).innerText = bespokeStructureMultiBlockConnector.toFixed(3);
+        document.getElementById("geotextile").innerText = geotextile.toFixed(5);
+        document.getElementById("impermeableMembrane").innerText =
+          impermeableMembrane.toFixed(5);
       }
     </script>
   </body>
