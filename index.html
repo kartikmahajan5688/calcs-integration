@@ -105,6 +105,12 @@
         <div class="section">
           <h3>Inputs</h3>
 
+          <label for="volume">Volume:</label>
+          <input
+            type="number"
+            id="volume"
+            placeholder="840.68 m³"
+          /><br /><br />
           <label for="pitLength">Pit Length:</label>
           <input
             type="number"
@@ -170,7 +176,7 @@
                 </tr>
                 <tr>
                   <td>No. of Layer</td>
-                  <td id="numLayer">0</td>
+                  <td id="tankDepthSide">0</td>
                   <td>no.s</td>
                 </tr>
                 <tr>
@@ -308,6 +314,7 @@
     <script>
       function calculate() {
         // Get input values
+        let volume = parseFloat(document.getElementById("volume").value);
         let pitLength = parseFloat(document.getElementById("pitLength").value);
         let pitWidth = parseFloat(document.getElementById("pitWidth").value);
         let pitDepth = parseFloat(document.getElementById("pitDepth").value);
@@ -315,21 +322,29 @@
         // Single tank Dimension
         const tank_length = 0.77;
         const tank_width = 0.385;
-        const tank_height = 0.422;
+        const tank_depth = 0.422;
         const void_ratio = 95;
         const module_single = 2;
         // const large_lattice = 2;
         // const small_lattice = 2;
         // const protector_ring = 16.0;
 
-        let tankLengthSide = Math.round(pitLength / tank_length);
-        let tankWidthSide = Math.round(pitWidth / tank_width);
-        let numLayer = Math.round(pitDepth / tank_height);
+        let tankLengthSide = isNaN(pitLength)
+          ? Math.round(volume / (pitWidth * pitDepth) / tank_length)
+          : Math.round(pitLength / tank_length);
+
+        let tankWidthSide = isNaN(pitWidth)
+          ? Math.round(volume / (pitLength * pitDepth) / tank_width)
+          : Math.round(pitWidth / tank_width);
+
+        let tankDepthSide = isNaN(pitDepth)
+          ? Math.round(volume / (pitLength * pitWidth) / tank_depth)
+          : Math.round(pitDepth / tank_depth);
 
         //corrected pit sizes
         const correctedPitLength = tankLengthSide * tank_length;
         const correctedPitWidth = tankWidthSide * tank_width;
-        const correctedPitDepth = numLayer * tank_height;
+        const correctedPitDepth = tankDepthSide * tank_depth;
 
         // Formulas
         let inputStorageVolume =
@@ -338,24 +353,27 @@
             correctedPitDepth *
             void_ratio) /
           100;
-        let totalTank = tankLengthSide * tankWidthSide * numLayer;
+        let totalTank = tankLengthSide * tankWidthSide * tankDepthSide;
 
         let tankAreaPerLayer = correctedPitLength * correctedPitWidth;
-        let grossVolume =
-          correctedPitDepth * correctedPitLength * correctedPitWidth;
+        let grossVolume = isNaN(volume)
+          ? correctedPitDepth * correctedPitLength * correctedPitWidth
+          : volume;
 
         let module = totalTank * module_single;
-        let largeSideWallLattice = tankLengthSide * numLayer * 2;
-        let smallSideWallLattice = tankWidthSide * numLayer * 2;
+        let largeSideWallLattice = tankLengthSide * tankDepthSide * 2;
+        let smallSideWallLattice = tankWidthSide * tankDepthSide * 2;
         let topSurfaceProtector = tankLengthSide * tankWidthSide * 8;
         let bespokeStructureSingleBlockConnector =
           (tankLengthSide - 1) * (tankWidthSide - 1) * 4;
         let bespokeStructureMultiBlockConnector =
-          (tankLengthSide - 1) * (tankWidthSide - 1) * (numLayer - 1) * 2;
+          (tankLengthSide - 1) * (tankWidthSide - 1) * (tankDepthSide - 1) * 2;
         let geotextile =
-          (2 * (correctedPitLength * correctedPitWidth) +
+          2 *
+          ((2 * (correctedPitLength * correctedPitWidth) +
             2 * (correctedPitWidth * correctedPitDepth) +
             2 * (correctedPitLength * correctedPitDepth)) *
+            1.2) *
           1.2;
 
         let impermeableMembrane =
@@ -379,7 +397,8 @@
           tankLengthSide.toFixed(3);
         document.getElementById("tankWidthSide").innerText =
           tankWidthSide.toFixed(3);
-        document.getElementById("numLayer").innerText = numLayer.toFixed(3);
+        document.getElementById("tankDepthSide").innerText =
+          tankDepthSide.toFixed(3);
         document.getElementById("tankAreaPerLayer").innerText =
           tankAreaPerLayer.toFixed(3);
         document.getElementById("grossVolume").innerText =
