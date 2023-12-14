@@ -118,17 +118,9 @@
             placeholder="49.28 m"
           /><br /><br />
           <label for="pitWidth">Pit Width:</label>
-          <input
-            type="number"
-            id="pitWidth"
-            placeholder="8.09 m"
-          /><br /><br />
+          <input type="number" id="pitWidth" placeholder="8.09 m" /><br /><br />
           <label for="pitDepth">Pit Depth:</label>
-          <input
-            type="number"
-            id="pitDepth"
-            placeholder="2.11 m"
-          /><br /><br />
+          <input type="number" id="pitDepth" placeholder="2.11 m" /><br /><br />
           <button onclick="calculate()">Calculate</button>
         </div>
         <div class="section">
@@ -162,22 +154,22 @@
                 <tr>
                   <td>Total no. of Tanks Required</td>
                   <td id="totalTank">0</td>
-                  <td>pcs</td>
+                  <td>nos.</td>
                 </tr>
                 <tr>
                   <td>No. of tank in Length side</td>
                   <td id="tankLengthSide">0</td>
-                  <td>no.s</td>
+                  <td>nos.</td>
                 </tr>
                 <tr>
                   <td>No. of tank in Width side</td>
                   <td id="tankWidthSide">0</td>
-                  <td>no.s</td>
+                  <td>nos.</td>
                 </tr>
                 <tr>
                   <td>No. of Layer</td>
                   <td id="tankDepthSide">0</td>
-                  <td>no.s</td>
+                  <td>nos.</td>
                 </tr>
                 <tr>
                   <td>Tank area per layer</td>
@@ -281,7 +273,7 @@
                   <td>pcs</td>
                 </tr>
                 <tr>
-                  <td>Geotextile</td>
+                  <td>Geotextile*</td>
                   <td>
                     <img
                       src="./images/GeoTextile.jpg"
@@ -293,7 +285,7 @@
                   <td>m²</td>
                 </tr>
                 <tr>
-                  <td>Impermeable Membrane</td>
+                  <td>Impermeable Membrane*</td>
                   <td>
                     <img
                       src="./images/ImperialMembrane.jpg"
@@ -306,6 +298,11 @@
                 </tr>
               </tbody>
             </table>
+            <br />
+            <p style="font-size: small">
+              * This materials are calculated for storage application, the value
+              of may vary for other applications
+            </p>
           </div>
         </div>
       </div>
