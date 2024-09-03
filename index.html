@@ -366,9 +366,13 @@
         let smallSideWallLattice = tankWidthSide * tankDepthSide * 2;
         let topSurfaceProtector = tankLengthSide * tankWidthSide * 8;
         let bespokeStructureSingleBlockConnector =
-          (tankLengthSide - 1) * (tankWidthSide - 1) * 4;
+          ((tankLengthSide - 1) * tankWidthSide +
+            tankLengthSide * (tankWidthSide - 1)) *
+          2;
         let bespokeStructureMultiBlockConnector =
-          (tankLengthSide - 1) * (tankWidthSide - 1) * (tankDepthSide - 1) * 2;
+          ((tankLengthSide - 1) * tankWidthSide +
+            tankLengthSide * (tankWidthSide - 1)) *
+          (tankDepthSide - 1);
         let geotextile =
           2 *
           ((2 * (correctedPitLength * correctedPitWidth) +
@@ -405,7 +409,7 @@
         document.getElementById("grossVolume").innerText =
           grossVolume.toFixed(3);
         document.getElementById("correctedGrossVolume").innerText =
-        correctedGrossVolume.toFixed(3);
+          correctedGrossVolume.toFixed(3);
 
         document.getElementById("module").innerText = module.toFixed(3);
         document.getElementById("largeSideWallLattice").innerText =
